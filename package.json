@@ -1,0 +1,13 @@
+{
+    "name": "fraud-detection-system",
+    "version": "1.0.0",
+    "main": "index.js",
+    "type": "module",  
+    "scripts": {
+      "start": "node deployment_script.js"
+    },
+    "dependencies": {
+      "web3": "^4.16.0"
+    }
+  }
+  
