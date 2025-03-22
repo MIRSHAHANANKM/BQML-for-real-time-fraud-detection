@@ -1,16 +1,20 @@
-import unittest
-from kafka_producer import KafkaProducerClient
-from kafka_consumer import KafkaConsumerClient
+# test_producer.py
+from confluent_kafka import Producer
+import json
+import time
 
-class TestKafkaIntegration(unittest.TestCase):
-    def test_producer_consumer_integration(self):
-        producer = KafkaProducerClient()
-        message = {"fraud_alert": "test message"}
-        producer.send_message(message)
-        producer.close()
+p = Producer({'bootstrap.servers': 'localhost:9092'})
 
-        consumer = KafkaConsumerClient()
-        consumer.listen()  # This should receive and process the above message
+for i in range(5):
+    transaction = {
+        "transaction_id": f"TXN_{i+1}",
+        "user_id": f"USER_{i+1}",
+        "location": "Mumbai",
+        "amount": 1000 + i * 500,
+        "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
+    }
+    p.produce('fraud_transactions', value=json.dumps(transaction))
+    p.flush()
+    print(f"Sent: {transaction}")
+    time.sleep(2)
 
-if __name__ == "__main__":
-    unittest.main()

@@ -19,4 +19,4 @@ def predict():
     return jsonify({"fraud_probability": prediction, "is_fraud": is_fraud})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5000)
